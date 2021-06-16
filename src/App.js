@@ -37,7 +37,10 @@ const deleteContact = async id => {
       await api.delete (`/contacts/${id}`)
   setContacts(contacts.filter(contact => contact.id !== id))};
 
-const editContact = contact => setContacts(contacts.map(contact => contact.id === contact ? {...contact }: contact))
+const editContact = async contact => {
+  const response = await api.put(`/contacts/${contact.id}`, contact)
+  setContacts(contacts.map(contact => contact.id === response.data.id ? {...response.data} : contact))}
+
 
 
 useEffect(()=> {
@@ -48,8 +51,7 @@ useEffect(()=> {
   getAllContacts();
 },[])
 
-  return (
-    
+  return (    
         <div className = 'ui container' style = {{padding:'2em'}}>
           <Router>
           <Header/> 
@@ -60,15 +62,18 @@ useEffect(()=> {
                     addContact = {addContact}/>
                   )}
                />
-              <ContactList 
-                  contacts = {contacts}
-                  deleteContact = {deleteContact}              
-              />
+               <Route exact path = '/' 
+                  render={(props) => (
+                    <ContactList {...props}
+                        contacts = {contacts}
+                        deleteContact = {deleteContact}              
+                    />)}
+               />
+              
               <Route exact path = '/edit/:id'
                   render={(props)=> (
                     <EditContact  {...props}
                     editContact = {editContact}/>
-
                   )}
               />
             </Switch>

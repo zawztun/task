@@ -24,12 +24,14 @@ const AddContact = (props) => {
                 <input type="text"
                         name = "name"
                         placeholder=" your name "
+                        required
                         value = {contact.name}
                         onChange = {e => setContact({...contact,name:e.target.value})}
                 />
                 <input type="text"
                         name = "email"
                         placeholder=" your email "
+                        required
                         value = {contact.email}
                         onChange = {e => setContact({...contact, email:e.target.value})}
                 />
