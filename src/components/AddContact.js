@@ -7,15 +7,13 @@ const AddContact = (props) => {
         id:'',
         name:'',
         email:''
-    })
+    });
 
     const onFormSubmit = e => {
         e.preventDefault()
-    console.log(contact)
         setContact({...contact, name:'', email:'', id : ''})
         props.addContact({...contact})
         history.push('/')
-        console.log(contact)
     };
 
     return (
