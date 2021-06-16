@@ -4,11 +4,12 @@ import AddContact from './components/AddContact'
 import {v4 as uuid} from 'uuid'
 import {BrowserRouter as Router , Switch , Route} from 'react-router-dom'
 import ContactList from './components/ContactList'
-import EditContact from './components/EditContact';
+import EditContact from './components/EditContact'
+import ContactDetail from './components/ContactDeatil'
 import Header from './components/Header'
     
 
-function App() {
+const App =() => {
 
     //Localhost setItem()  and getItem()
   // const initialState = JSON.parse(localStorage.getItem('contacts')) || [];
@@ -24,9 +25,7 @@ function App() {
   const apiContacts = async()=> {
     const response = await api.get('./contacts')
       return response.data
-    //console.log(response.data)
-
-  }
+  };
 const addContact = async contact => {
   const request = {
     id: uuid(), ...contact};
@@ -53,35 +52,36 @@ useEffect(()=> {
 
   return (    
         <div className = 'ui container' style = {{padding:'2em'}}>
-          <Router>
-          <Header/> 
-            <Switch>
-              <Route exact path = '/add'
-                  render={(props) =>(
-                    <AddContact {...props} 
-                    addContact = {addContact}/>
-                  )}
-               />
-               <Route exact path = '/' 
-                  render={(props) => (
-                    <ContactList {...props}
-                        contacts = {contacts}
-                        deleteContact = {deleteContact}              
-                    />)}
-               />
-              
-              <Route exact path = '/edit/:id'
-                  render={(props)=> (
-                    <EditContact  {...props}
-                    editContact = {editContact}/>
-                  )}
-              />
-            </Switch>
-          </Router>
-          </div>
-   
-   
- 
+              <Router>
+                  <Header/> 
+                      <Switch>
+                          <Route exact path = '/add'
+                                 render={(props) =>(
+                            <AddContact {...props} 
+                                  addContact = {addContact}/>
+                              )}
+                            />
+                            <Route exact path = '/' 
+                                    render={(props) => (
+                              <ContactList {...props}
+                                    contacts = {contacts}
+                                    deleteContact = {deleteContact}              
+                              />)}
+                            />                                      
+                          <Route exact path = '/edit/:id'
+                                 render={(props)=> (
+                              <EditContact  {...props}
+                                  editContact = {editContact}/>
+                              )}
+                          />
+                          <Route exact path = '/contacts/:id' 
+                                  render={(props) =>(
+                              <ContactDetail {...props}/>
+                                )}
+                           />
+                      </Switch>
+              </Router>
+          </div>   
   );
 }
 

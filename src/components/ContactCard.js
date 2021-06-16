@@ -5,12 +5,15 @@ const ContactCard = (props) => {
     const  { id,name,email } = props.contact
 
     return (
-        <div className = 'item'>
-                <img className = 'ui avatar image' src = {`https://robohash.org/${id}`} alt = 'user'/>        
-            <div className = 'content'>   
+
+           <div className = 'item'>
+            <img className = 'ui avatar image' src = {`https://robohash.org/${id}`} alt = 'user'/>              
+            <div className = 'content'> 
+                <Link to = {{pathname: `contacts/${id}`, state:{contact: props.contact}}}>  
                 <div className = 'header'>{name}</div>   
                 <div className="descrtption">{email}</div>
-            </div>
+                </Link>
+            </div>         
             <div className = 'ui right floated icon '>
                 <i onClick = {()=>props.deleteContact(id)} 
                 className="trash alternate icon" 
@@ -19,8 +22,7 @@ const ContactCard = (props) => {
             <i className="edit alternate icon" style = {{padding:'10px',color:'green'}}></i>
             </Link> 
             </div>         
-        </div>
-      
+        </div>      
     )
 }
 

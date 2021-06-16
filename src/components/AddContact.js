@@ -16,7 +16,7 @@ const AddContact = (props) => {
         props.addContact({...contact})
         history.push('/')
         console.log(contact)
-    }
+    };
 
     return (
         <div className = 'ui clearing segment'>
@@ -38,7 +38,7 @@ const AddContact = (props) => {
                 <button className = 'ui right floated red button' >Submit</button>
             </form>
         </div>
-    )
+    );
 }
 
 export default AddContact
