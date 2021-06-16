@@ -1,5 +1,11 @@
 # Getting Started with Create React App
 
+1. If you are beginner of React => it is easy to study components structure 
+2. I code it  only functional components 
+3. I hope it is easy to understand for beginner
+4. CURD operation, API 
+5. **** after you clone you need to create json-server 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
