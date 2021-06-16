@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
+import api from './API/api'
 import AddContact from './components/AddContact'
-//import {v4 as uuid} from 'uuid'
+import {v4 as uuid} from 'uuid'
 import {BrowserRouter as Router , Switch , Route} from 'react-router-dom'
 import ContactList from './components/ContactList'
 import EditContact from './components/EditContact';
@@ -9,18 +10,43 @@ import Header from './components/Header'
 
 function App() {
 
-  const initialState = JSON.parse(localStorage.getItem('contacts')) || [];
+    //Localhost setItem()  and getItem()
+  // const initialState = JSON.parse(localStorage.getItem('contacts')) || [];
 
-  const [contacts, setContacts] = useState(initialState);
+  // const [contacts, setContacts] = useState(initialState);
 
-  useEffect(()=>{
-    localStorage.setItem('contacts',JSON.stringify(contacts))
-  },[contacts]);
+  // useEffect(()=>{
+  //   localStorage.setItem('contacts',JSON.stringify(contacts))
+  // },[contacts]);
 
+  const [contacts, setContacts] = useState([ ]);
 
-const addContact = contact => setContacts([contact, ...contacts]);
-const deleteContact = id => setContacts(contacts.filter(contact => contact.id !== id));
+  const apiContacts = async()=> {
+    const response = await api.get('./contacts')
+      return response.data
+    //console.log(response.data)
+
+  }
+const addContact = async contact => {
+  const request = {
+    id: uuid(), ...contact};
+const response = await api.post('/contacts',request)
+  setContacts([response.data, ...contacts])};
+
+const deleteContact = async id => {
+      await api.delete (`/contacts/${id}`)
+  setContacts(contacts.filter(contact => contact.id !== id))};
+
 const editContact = contact => setContacts(contacts.map(contact => contact.id === contact ? {...contact }: contact))
+
+
+useEffect(()=> {
+  const getAllContacts = async() => {
+    const allContacts = await apiContacts();
+    if(allContacts) setContacts(allContacts)
+  }
+  getAllContacts();
+},[])
 
   return (
     
@@ -34,9 +60,6 @@ const editContact = contact => setContacts(contacts.map(contact => contact.id ==
                     addContact = {addContact}/>
                   )}
                />
-
-              
-      
               <ContactList 
                   contacts = {contacts}
                   deleteContact = {deleteContact}              
@@ -48,7 +71,6 @@ const editContact = contact => setContacts(contacts.map(contact => contact.id ==
 
                   )}
               />
-          
             </Switch>
           </Router>
           </div>
